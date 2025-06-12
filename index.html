@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+</script>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Carta 💌</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #e7e4ec, #f0adc8);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #444;
+    text-align: center;
+  }
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: 2em;
+    color: #ff5e7e;
+    text-shadow: 1px 1px 2px #fff;
+  }
+
+  .subtitulo {
+    font-size: 1.1em;
+    margin-bottom: 30px;
+    color: #5a5a5a;
+    padding: 0 20px;
+  }
+
+  .envelope {
+    width: 320px;
+    height: 200px;
+    background: #ff8fa3;
+    border-radius: 10px;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.5s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .envelope.aberto {
+    transform: scale(1.05);
+  }
+
+  .tampa {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-left: 160px solid transparent;
+    border-right: 160px solid transparent;
+    border-top: 100px solid #ffb3c1;
+    transform-origin: top center;
+    transition: transform 0.5s ease;
+    z-index: 1;
+  }
+
+  .envelope.aberto .tampa {
+    transform: rotateX(180deg);
+  }
+
+  .conteudo {
+    max-width: 260px;
+    max-height: 260px;
+    padding-top: 1px;
+    border-radius: 6px;
+    z-index: 2;
+    opacity: 0;
+    transform: scale(0.3);
+    transition: opacity 1s ease, transform 0.9s ease;
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  .envelope.aberto .conteudo {
+    opacity: 1;
+    transform: translateY(-10px) scale(1.3);
+    pointer-events: auto;
+  }
+
+  img, video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  video {
+    background: black;
+  }
+
+  .aviso {
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+  }
+
+  .coracao {
+    position: fixed;
+    top: -20px;
+    font-size: 24px;
+    color: #ff4d6d;
+    animation: cair 3s linear forwards;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  @keyframes cair {
+    to {
+      transform: translateY(100vh) rotate(360deg);
+      opacity: 0;
+    }
+  }
+</style>
+</head>
+<body>
+
+<h1>Veja o que eu tenho a dizer </h1>
+<div class="subtitulo">Toque no envelope</div>
+
+<div class="envelope" id="envelope" onclick="abrirCarta(this)">
+  <div class="tampa"></div>
+  <div class="conteudo" id="conteudo">
+    <!-- Mídia inserida dinamicamente -->
+  </div>
+</div>
+
+<script>
+const envelope = document.getElementById('envelope');
+const conteudo = document.getElementById('conteudo');
+
+// Lê o parâmetro da URL
+const params = new URLSearchParams(window.location.search);
+const link = params.get('img');
+
+function abrirCarta(el) {
+  el.classList.toggle('aberto');
+  if (el.classList.contains('aberto')) {
+    const intervalo = setInterval(chuvaDeCoracoes, 200);
+    setTimeout(() => clearInterval(intervalo), 3000);
+  }
+}
+
+function chuvaDeCoracoes() {
+  const coracao = document.createElement('div');
+  coracao.classList.add('coracao');
+  coracao.innerText = '🩷';
+  coracao.style.left = Math.random() * 100 + 'vw';
+  coracao.style.fontSize = Math.random() * 10 + 20 + 'px';
+  document.body.appendChild(coracao);
+  setTimeout(() => coracao.remove(), 3000);
+}
+
+if (!link) {
+  conteudo.innerHTML = '<div class="aviso">Nenhuma imagem encontrada 🖕</div>';
+} else {
+  const ext = link.split('.').pop().toLowerCase();
+  if (['mp4','webm','ogg'].includes(ext)) {
+    const video = document.createElement('video');
+    video.src = link;
+    video.controls = true;
+    video.autoplay = true;
+    video.loop = true;
+    conteudo.appendChild(video);
+  } else {
+    const img = document.createElement('img');
+    img.src = link;
+    conteudo.appendChild(img);
+  }
+}
+</script>

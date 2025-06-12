@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Editor da Carta 💌</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #f9d5ec, #c9d6ff);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 16px;
+      text-align: center;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    h2 {
+      color: #ff5e7e;
+    }
+
+    input[type="text"], input[type="file"] {
+      width: 100%;
+      margin: 10px 0;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 12px 24px;
+      background: #ff5e7e;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #e0486b;
+    }
+
+    .info {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>   
+</head>
+<body>
+
+ <div class="container">
+    <h2>Insira o link da imagem</h2>
+    <input type="text" id="imageLink" placeholder="https://i.imgur.com/xyz.jpg">
+    <br>
+    <button onclick="gerarLink()">Gerar link e compartilhar</button>
+  </div>
+
+  <script>
+    function gerarLink() {
+      const link = document.getElementById('imageLink').value.trim();
+      if (!link) {
+        alert("Por favor, insira um link.");
+        return;
+      }
+
+      const urlEncoded = encodeURIComponent(link);
+      window.location.href = `carregamento.html?img=${urlEncoded}`;
+    }
+  </script>
+</body>
+</html>
