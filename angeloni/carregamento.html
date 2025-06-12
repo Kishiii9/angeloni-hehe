@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Carregando...</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background: linear-gradient(135deg, #f9e7f3, #e2c6e8);
+      font-family: 'Montserrat', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .loader-container {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(15px);
+      border-radius: 20px;
+      padding: 50px;
+      text-align: center;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+      width: 300px;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .emoji {
+      font-size: 4rem;
+      animation: beat 1.5s infinite ease-in-out;
+    }
+
+    .progress {
+      margin-top: 30px;
+      width: 100%;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.4);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #d53369, #daae51);
+      border-radius: 10px;
+      transition: width 0.1s ease;
+    }
+
+    .percentage {
+      margin-top: 10px;
+      font-weight: 600;
+      color: #5b2a4f;
+      font-size: 1.2rem;
+    }
+
+    .text {
+      margin-top: 10px;
+      color: #7a3e6d;
+      font-weight: 500;
+      font-size: 1rem;
+      animation: floatText 3s infinite ease-in-out;
+    }
+
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+
+    @keyframes floatText {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .fade-out {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="loader-container" id="loader">
+    <div class="emoji">❤️</div>
+    <div class="progress">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <div class="percentage" id="percentage">0%</div>
+    <div class="text">Carregando com amor...</div>
+  </div>
+
+  <script>
+    const progressBar = document.getElementById('progressBar');
+    const percentageText = document.getElementById('percentage');
+    const loader = document.getElementById('loader');
+
+    let percent = 0;
+    const interval = setInterval(() => {
+      percent++;
+      progressBar.style.width = percent + '%';
+      percentageText.textContent = percent + '%';
+
+      if (percent >= 100) {
+        clearInterval(interval);
+        loader.classList.add('fade-out');
+
+        setTimeout(() => {
+          window.location.href = "love.html";
+        }, 1000);
+      }
+    }, 30); // ~3s total
+  </script>
+</body>
+</html>
